@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { getImages } from './projectImages.js'
 import { profile, nav, about, experience, skills, projects, education } from './data.js'
 
 const Icon = {
@@ -96,21 +97,30 @@ function Hero() {
   )
 }
 
-function Shot({ src, alt, onOpen, big }) {
-  const [failed, setFailed] = useState(false)
-  if (failed) return <div className={`shot ${big ? 'shot--big' : ''}`}><span className="shot__ph">Screenshot</span></div>
+function Shot({ src, alt, big, onOpen }) {
+  const cls = `shot ${big ? 'shot--big' : ''}`
+  if (!src) return <div className={cls}><span className="shot__ph">Screenshot</span></div>
   return (
-    <button type="button" className={`shot shot--btn ${big ? 'shot--big' : ''}`} onClick={() => onOpen({ src, alt })} aria-label={`View larger: ${alt}`}>
-      <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} />
+    <button type="button" className={`${cls} shot--btn`} onClick={onOpen} aria-label={`View larger: ${alt}`}>
+      <img src={src} alt={alt} loading="lazy" />
     </button>
   )
 }
 
-function Lightbox({ image, onClose }) {
+function Gallery({ name, images, start, onClose }) {
+  const [i, setI] = useState(start)
   const closeRef = useRef(null)
+  const touchX = useRef(null)
+  const n = images.length
+  const go = (d) => setI((c) => (c + d + n) % n)
+
   useEffect(() => {
     closeRef.current?.focus()
-    const onKey = (e) => e.key === 'Escape' && onClose()
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      else if (e.key === 'ArrowLeft') go(-1)
+      else if (e.key === 'ArrowRight') go(1)
+    }
     document.addEventListener('keydown', onKey)
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -118,24 +128,60 @@ function Lightbox({ image, onClose }) {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prev
     }
-  }, [onClose])
+  }, [onClose, n])
+
+  useEffect(() => {
+    document.querySelector('.thumb[aria-current="true"]')?.scrollIntoView({ block: 'nearest', inline: 'center' })
+  }, [i])
+
+  const stop = (e) => e.stopPropagation()
+  const onTouchEnd = (e) => {
+    const dx = e.changedTouches[0].clientX - touchX.current
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1)
+  }
+
   return createPortal(
-    <div className="lightbox" role="dialog" aria-modal="true" aria-label={image.alt} onClick={onClose}>
-      <button ref={closeRef} type="button" className="lightbox__close" aria-label="Close image" onClick={onClose}>×</button>
-      <img src={image.src} alt={image.alt} onClick={(e) => e.stopPropagation()} />
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${name} screenshots`} onClick={onClose}>
+      <button ref={closeRef} type="button" className="lightbox__btn lightbox__close" aria-label="Close gallery" onClick={onClose}>×</button>
+      {n > 1 && (
+        <button type="button" className="lightbox__btn lightbox__nav lightbox__nav--prev" aria-label="Previous image" onClick={(e) => (stop(e), go(-1))}>‹</button>
+      )}
+      <div className="lightbox__body" onClick={stop}>
+        <img
+          className="lightbox__main"
+          src={images[i]}
+          alt={`${name} screenshot ${i + 1} of ${n}`}
+          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchEnd={onTouchEnd}
+        />
+        {n > 1 && <p className="lightbox__count">{i + 1} / {n}</p>}
+        {n > 1 && (
+          <div className="lightbox__thumbs">
+            {images.map((src, k) => (
+              <button key={src} type="button" className="thumb" aria-current={k === i} aria-label={`Show image ${k + 1}`} onClick={() => setI(k)}>
+                <img src={src} alt="" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      {n > 1 && (
+        <button type="button" className="lightbox__btn lightbox__nav lightbox__nav--next" aria-label="Next image" onClick={(e) => (stop(e), go(1))}>›</button>
+      )}
     </div>,
     document.body
   )
 }
 
 function ProjectCard({ p }) {
+  const images = getImages(p.slug)
   const [open, setOpen] = useState(null)
   return (
     <article className="card project">
-      {open && <Lightbox image={open} onClose={() => setOpen(null)} />}
+      {open !== null && <Gallery name={p.name} images={images} start={open} onClose={() => setOpen(null)} />}
       <div className="shots">
-        {[1, 2, 3].map((i) => (
-          <Shot key={i} big={i === 1} onOpen={setOpen} src={`/projects/${p.slug}/${i}.jpg`} alt={`${p.name} screenshot ${i}`} />
+        {[0, 1, 2].map((i) => (
+          <Shot key={i} big={i === 0} src={images[i]} alt={`${p.name} screenshot ${i + 1}`} onOpen={() => setOpen(i)} />
         ))}
       </div>
       <h3>{p.name}</h3>
