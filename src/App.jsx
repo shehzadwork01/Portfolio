@@ -1,32 +1,43 @@
-import { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { getImages } from './projectImages.js'
-import { profile, nav, about, experience, skills, projects, education, facts, services } from './data.js'
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { getImages } from "./projectImages.js";
+import {
+  profile,
+  nav,
+  about,
+  experience,
+  skills,
+  projects,
+  education,
+  facts,
+  services,
+} from "./data.js";
 
 const Icon = {
   linkedin: (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3V9.75zm6.5 0h3.83v1.54h.05c.53-1 1.84-2.06 3.78-2.06 4.04 0 4.79 2.66 4.79 6.11V21h-4v-4.9c0-1.17-.02-2.67-1.63-2.67-1.63 0-1.88 1.27-1.88 2.59V21h-4V9.75z" /></svg>
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3V9.75zm6.5 0h3.83v1.54h.05c.53-1 1.84-2.06 3.78-2.06 4.04 0 4.79 2.66 4.79 6.11V21h-4v-4.9c0-1.17-.02-2.67-1.63-2.67-1.63 0-1.88 1.27-1.88 2.59V21h-4V9.75z" />
+    </svg>
   ),
-  github: (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.76 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z" /></svg>
-  ),
-  mail: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
-  ),
-}
+};
 
 function Socials() {
   return (
     <div className="socials">
-      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">{Icon.linkedin}</a>
-      <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">{Icon.github}</a>
-      <a href={`mailto:${profile.email}`} aria-label="Send an email">{Icon.mail}</a>
+      <a
+        href={profile.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn profile"
+      >
+        {Icon.linkedin}
+      </a>
     </div>
-  )
+  );
 }
 
 function Navbar() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   return (
     <header className="nav">
       <div className="container nav__inner">
@@ -34,36 +45,63 @@ function Navbar() {
           <span className="nav__logo">{profile.initials}</span>
           <span className="nav__name">{profile.name}</span>
         </a>
-        <nav id="menu" className={`nav__links ${open ? 'is-open' : ''}`} aria-label="Primary">
+        <nav
+          id="menu"
+          className={`nav__links ${open ? "is-open" : ""}`}
+          aria-label="Primary"
+        >
           {nav.map((n) => (
-            <a key={n.id} href={`#${n.id}`} onClick={() => setOpen(false)}>{n.label}</a>
+            <a key={n.id} href={`#${n.id}`} onClick={() => setOpen(false)}>
+              {n.label}
+            </a>
           ))}
-          <a className="btn btn--dark btn--sm nav__cta" href="#contact" onClick={() => setOpen(false)}>Get in touch</a>
+          <a
+            className="btn btn--dark btn--sm nav__cta"
+            href="#contact"
+            onClick={() => setOpen(false)}
+          >
+            Get in touch
+          </a>
         </nav>
-        <button className="nav__toggle" aria-expanded={open} aria-controls="menu" aria-label="Toggle menu" onClick={() => setOpen((o) => !o)}>
-          <span /><span /><span />
+        <button
+          className="nav__toggle"
+          aria-expanded={open}
+          aria-controls="menu"
+          aria-label="Toggle menu"
+          onClick={() => setOpen((o) => !o)}
+        >
+          <span />
+          <span />
+          <span />
         </button>
       </div>
     </header>
-  )
+  );
 }
 
-function Reveal({ children, className = '' }) {
-  const ref = useRef(null)
-  const [shown, setShown] = useState(false)
+function Reveal({ children, className = "" }) {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false);
   useEffect(() => {
-    const el = ref.current
-    if (!el || !('IntersectionObserver' in window)) return setShown(true)
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setShown(true), io.disconnect()), { threshold: 0.12 })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-  return <div ref={ref} className={`reveal ${shown ? 'is-in' : ''} ${className}`}>{children}</div>
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) return setShown(true);
+    const io = new IntersectionObserver(
+      ([e]) => e.isIntersecting && (setShown(true), io.disconnect()),
+      { threshold: 0.12 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={`reveal ${shown ? "is-in" : ""} ${className}`}>
+      {children}
+    </div>
+  );
 }
 
 function Section({ id, label, title, children, alt }) {
   return (
-    <section id={id} className={`section ${alt ? 'section--alt' : ''}`}>
+    <section id={id} className={`section ${alt ? "section--alt" : ""}`}>
       <div className="container">
         <Reveal>
           <p className="label">{label}</p>
@@ -72,109 +110,243 @@ function Section({ id, label, title, children, alt }) {
         </Reveal>
       </div>
     </section>
-  )
+  );
+}
+
+const TOPICS = [
+  "Job opportunity",
+  "Freelance project",
+  "Collaboration",
+  "Something else",
+];
+
+function ContactForm() {
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [error, setError] = useState("");
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    if (data.get("botcheck")) return; // honeypot: bots fill this in
+
+    const key = import.meta.env.VITE_WEB3FORMS_KEY;
+    if (!key) {
+      setError("The contact form isn't configured yet. Please reach out on LinkedIn.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sending");
+    setError("");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: key,
+          subject: `Portfolio contact: ${data.get("topic")} (${data.get("name")})`,
+          from_name: "Portfolio contact form",
+          name: data.get("name"),
+          email: data.get("email"),
+          topic: data.get("topic"),
+          message: data.get("message"),
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.message || "Request failed");
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setError("Something went wrong. Please try again or reach out on LinkedIn.");
+      setStatus("error");
+    }
+  };
+
+  if (status === "sent") {
+    return (
+      <div className="form form--done" role="status">
+        <h3>Message sent</h3>
+        <p>Thanks for reaching out. I'll reply to you by email soon.</p>
+        <button type="button" className="btn btn--ghost-light" onClick={() => setStatus("idle")}>
+          Send another message
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form className="form" onSubmit={onSubmit}>
+      <div className="form__row">
+        <label>
+          <span>Name</span>
+          <input name="name" type="text" required maxLength={80} autoComplete="name" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" required maxLength={120} autoComplete="email" />
+        </label>
+      </div>
+      <label>
+        <span>I'm reaching out about</span>
+        <select name="topic" defaultValue={TOPICS[0]}>
+          {TOPICS.map((t) => (
+            <option key={t}>{t}</option>
+          ))}
+        </select>
+      </label>
+      <label>
+        <span>Message</span>
+        <textarea
+          name="message"
+          rows={5}
+          required
+          minLength={10}
+          maxLength={3000}
+          placeholder="Tell me a little about what you need."
+        />
+      </label>
+      <input type="checkbox" name="botcheck" className="form__hp" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+      <button className="btn btn--primary" type="submit" disabled={status === "sending"}>
+        {status === "sending" ? "Sending…" : "Send message →"}
+      </button>
+      {status === "error" && (
+        <p className="form__error" role="alert">
+          {error}
+        </p>
+      )}
+    </form>
+  );
 }
 
 function Hero() {
-  const current = experience[0]
+  const current = experience[0];
   return (
     <section className="hero" id="top">
       <div className="container hero__grid">
         <div className="hero__text">
-          <p className="kicker"><span className="kicker__bar" />{profile.name}<em>{profile.role}</em></p>
+          <p className="kicker">
+            <span className="kicker__bar" />
+            {profile.name}
+            <em>{profile.role}</em>
+          </p>
           <h1>
             <span>Engineering</span>
-            <span>digital products</span>
-            <span className="accent">that work.</span>
+            <span>software</span>
+            <span className="accent">that works.</span>
           </h1>
           <p className="hero__lead">
-            I build scalable, responsive web applications with MongoDB, Express, React and Node.js, from healthcare systems and ERP tools to AI-powered apps and Shopify stores.
+            I'm a software engineer building reliable web and desktop
+            applications, from ERP and inventory tools to AI-powered
+            apps and Shopify stores. Mostly on the MERN stack.
           </p>
           <div className="hero__cta">
-            <a className="btn btn--primary" href="#projects">View my work <span aria-hidden="true">→</span></a>
-            <a className="btn btn--ghost" href="#contact">Get in touch</a>
+            <a className="btn btn--primary" href="#projects">
+              View my work <span aria-hidden="true">→</span>
+            </a>
+            <a className="btn btn--ghost" href="#contact">
+              Get in touch
+            </a>
           </div>
         </div>
         <div className="hero__visual" aria-hidden="true">
           <div className="hero__panel">
-            <span className="hero__initials">{profile.initials}</span>
+            <img className="hero__photo" src="/me.webp" alt={profile.name} />
             <div className="hero__badge">
               <strong>{current.company}</strong>
-              <small>{current.title} · {profile.location}</small>
+              <small>
+                {current.title} · {profile.location}
+              </small>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function Stats() {
   const items = [
-    { big: '2+ years', small: 'Professional experience' },
-    { big: String(projects.length), small: 'Projects built' },
-    { big: String(experience.length), small: 'Companies worked with' },
-    { big: 'MERN', small: 'Core stack' },
-  ]
+    { big: "2+ years", small: "Professional experience" },
+    { big: String(projects.length), small: "Projects built" },
+    { big: String(experience.length), small: "Companies worked with" },
+    { big: "Web + Desktop", small: "Platforms" },
+  ];
   return (
     <div className="stats">
       <div className="container stats__grid">
         {items.map((s) => (
-          <div key={s.small}><strong>{s.big}</strong><span>{s.small}</span></div>
+          <div key={s.small}>
+            <strong>{s.big}</strong>
+            <span>{s.small}</span>
+          </div>
         ))}
       </div>
     </div>
-  )
-}
-
-function Shot({ src, alt, big, onOpen }) {
-  const cls = `shot ${big ? 'shot--big' : ''}`
-  if (!src) return <div className={cls}><span className="shot__ph">Screenshot</span></div>
-  return (
-    <button type="button" className={`${cls} shot--btn`} onClick={onOpen} aria-label={`View larger: ${alt}`}>
-      <img src={src} alt={alt} loading="lazy" />
-    </button>
-  )
+  );
 }
 
 function Gallery({ name, images, start, onClose }) {
-  const [i, setI] = useState(start)
-  const closeRef = useRef(null)
-  const touchX = useRef(null)
-  const n = images.length
-  const go = (d) => setI((c) => (c + d + n) % n)
+  const [i, setI] = useState(start);
+  const closeRef = useRef(null);
+  const touchX = useRef(null);
+  const n = images.length;
+  const go = (d) => setI((c) => (c + d + n) % n);
 
   useEffect(() => {
-    closeRef.current?.focus()
+    closeRef.current?.focus();
     const onKey = (e) => {
-      if (e.key === 'Escape') onClose()
-      else if (e.key === 'ArrowLeft') go(-1)
-      else if (e.key === 'ArrowRight') go(1)
-    }
-    document.addEventListener('keydown', onKey)
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft") go(-1);
+      else if (e.key === "ArrowRight") go(1);
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = prev
-    }
-  }, [onClose, n])
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose, n]);
 
   useEffect(() => {
-    document.querySelector('.thumb[aria-current="true"]')?.scrollIntoView({ block: 'nearest', inline: 'center' })
-  }, [i])
+    document
+      .querySelector('.thumb[aria-current="true"]')
+      ?.scrollIntoView({ block: "nearest", inline: "center" });
+  }, [i]);
 
-  const stop = (e) => e.stopPropagation()
+  const stop = (e) => e.stopPropagation();
   const onTouchEnd = (e) => {
-    const dx = e.changedTouches[0].clientX - touchX.current
-    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1)
-  }
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  };
 
   return createPortal(
-    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${name} screenshots`} onClick={onClose}>
-      <button ref={closeRef} type="button" className="lightbox__btn lightbox__close" aria-label="Close gallery" onClick={onClose}>×</button>
+    <div
+      className="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${name} screenshots`}
+      onClick={onClose}
+    >
+      <button
+        ref={closeRef}
+        type="button"
+        className="lightbox__btn lightbox__close"
+        aria-label="Close gallery"
+        onClick={onClose}
+      >
+        ×
+      </button>
       {n > 1 && (
-        <button type="button" className="lightbox__btn lightbox__nav lightbox__nav--prev" aria-label="Previous image" onClick={(e) => (stop(e), go(-1))}>‹</button>
+        <button
+          type="button"
+          className="lightbox__btn lightbox__nav lightbox__nav--prev"
+          aria-label="Previous image"
+          onClick={(e) => (stop(e), go(-1))}
+        >
+          ‹
+        </button>
       )}
       <div className="lightbox__body" onClick={stop}>
         <img
@@ -184,11 +356,22 @@ function Gallery({ name, images, start, onClose }) {
           onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
           onTouchEnd={onTouchEnd}
         />
-        {n > 1 && <p className="lightbox__count">{i + 1} / {n}</p>}
+        {n > 1 && (
+          <p className="lightbox__count">
+            {i + 1} / {n}
+          </p>
+        )}
         {n > 1 && (
           <div className="lightbox__thumbs">
             {images.map((src, k) => (
-              <button key={src} type="button" className="thumb" aria-current={k === i} aria-label={`Show image ${k + 1}`} onClick={() => setI(k)}>
+              <button
+                key={src}
+                type="button"
+                className="thumb"
+                aria-current={k === i}
+                aria-label={`Show image ${k + 1}`}
+                onClick={() => setI(k)}
+              >
                 <img src={src} alt="" loading="lazy" />
               </button>
             ))}
@@ -196,43 +379,293 @@ function Gallery({ name, images, start, onClose }) {
         )}
       </div>
       {n > 1 && (
-        <button type="button" className="lightbox__btn lightbox__nav lightbox__nav--next" aria-label="Next image" onClick={(e) => (stop(e), go(1))}>›</button>
+        <button
+          type="button"
+          className="lightbox__btn lightbox__nav lightbox__nav--next"
+          aria-label="Next image"
+          onClick={(e) => (stop(e), go(1))}
+        >
+          ›
+        </button>
       )}
     </div>,
-    document.body
-  )
+    document.body,
+  );
 }
 
-function ProjectCard({ p }) {
-  const images = getImages(p.slug)
-  const [open, setOpen] = useState(null)
+const CATEGORIES = ["All", "Web app", "Desktop", "Shopify"];
+const CATEGORY_LABEL = {
+  All: "All",
+  "Web app": "Web apps",
+  Desktop: "Desktop",
+  Shopify: "Shopify",
+};
+const THUMBS = 4;
+
+function ProjectShowcase() {
+  const [filter, setFilter] = useState("All");
+  const [index, setIndex] = useState(0);
+  const [shot, setShot] = useState(0); // image shown in the big preview
+  const [gallery, setGallery] = useState(null); // start index when lightbox is open
+  const touchX = useRef(null);
+
+  const list =
+    filter === "All" ? projects : projects.filter((p) => p.category === filter);
+  const n = list.length;
+  const current = list[index] || list[0];
+  const images = getImages(current.slug);
+  const total = images.length;
+  const prev = list[(index - 1 + n) % n];
+  const next = list[(index + 1) % n];
+  const closeGallery = useCallback(() => setGallery(null), []);
+
+  const go = (d) => {
+    setIndex((i) => (i + d + n) % n);
+    setShot(0);
+  };
+  const jump = (i) => {
+    setIndex(i);
+    setShot(0);
+  };
+  const pick = (f) => {
+    setFilter(f);
+    setIndex(0);
+    setShot(0);
+  };
+  const count = (f) =>
+    f === "All" ? projects.length : projects.filter((p) => p.category === f).length;
+
+  const onKeyDown = (e) => {
+    if (e.target.closest("input, textarea, select")) return;
+    if (e.key === "ArrowLeft") go(-1);
+    else if (e.key === "ArrowRight") go(1);
+  };
+  const onTouchEnd = (e) => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    touchX.current = null;
+    if (Math.abs(dx) > 60 && n > 1) go(dx < 0 ? 1 : -1);
+  };
+
+  const thumbs = images.slice(0, THUMBS);
+  const more = total - THUMBS;
+
   return (
-    <article className="card project">
-      {open !== null && <Gallery name={p.name} images={images} start={open} onClose={() => setOpen(null)} />}
-      <div className="shots">
-        {[0, 1, 2].map((i) => (
-          <Shot key={i} big={i === 0} src={images[i]} alt={`${p.name} screenshot ${i + 1}`} onOpen={() => setOpen(i)} />
+    <div className="showcase">
+      <div className="tabs" role="tablist" aria-label="Filter projects">
+        {CATEGORIES.map((c) => (
+          <button
+            key={c}
+            type="button"
+            role="tab"
+            aria-selected={filter === c}
+            className={`tabs__btn ${filter === c ? "is-on" : ""}`}
+            onClick={() => pick(c)}
+          >
+            {CATEGORY_LABEL[c]}
+            <small>{count(c)}</small>
+          </button>
         ))}
       </div>
-      <h3>{p.name}</h3>
-      <p className="project__sub">{p.subtitle}</p>
-      <p>{p.description}</p>
-      <ul className="chips" aria-label={`${p.name} technologies`}>
-        {p.stack.map((s) => <li key={s}>{s}</li>)}
-      </ul>
-      {(p.live || p.github) && (
-        <div className="project__links">
-          {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer">Live site ↗</a>}
-          {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer">Source code ↗</a>}
+
+      <div
+        className="car"
+        tabIndex={0}
+        role="group"
+        aria-roledescription="carousel"
+        aria-label="Projects"
+        onKeyDown={onKeyDown}
+      >
+        {n > 1 ? (
+          <button
+            type="button"
+            className="car__peek"
+            aria-label={`Previous project: ${prev.name}`}
+            onClick={() => go(-1)}
+            style={{ backgroundImage: `url(${getImages(prev.slug)[0] || ""})` }}
+          />
+        ) : (
+          <span className="car__peek car__peek--empty" aria-hidden="true" />
+        )}
+
+        <article
+          key={current.slug}
+          className="slide"
+          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="slide__media">
+            {total > 0 ? (
+              <>
+                <button
+                  type="button"
+                  className="slide__main"
+                  onClick={() => setGallery(shot)}
+                  aria-label={`Open all ${total} screenshots of ${current.name}`}
+                >
+                  <img
+                    src={images[shot]}
+                    alt={`${current.name} screenshot ${shot + 1} of ${total}`}
+                  />
+                  <span className="slide__count">
+                    {shot + 1} / {total}
+                  </span>
+                  <span className="slide__hint">
+                    <span aria-hidden="true">⤢</span> View all {total} screenshots
+                  </span>
+                </button>
+                {total > 1 && (
+                  <div className="slide__thumbs">
+                    {thumbs.map((src, i) => {
+                      const isMore = more > 0 && i === THUMBS - 1;
+                      return (
+                        <button
+                          key={src}
+                          type="button"
+                          className={`thumbs__btn ${shot === i && !isMore ? "is-on" : ""}`}
+                          aria-label={
+                            isMore
+                              ? `View all ${total} screenshots`
+                              : `Show screenshot ${i + 1}`
+                          }
+                          onClick={() => (isMore ? setGallery(i) : setShot(i))}
+                        >
+                          <img src={src} alt="" loading="lazy" />
+                          {isMore && <span className="thumbs__more">+{more}</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+                <p className="slide__note">
+                  {total} screenshot{total > 1 ? "s" : ""} · click any image to
+                  enlarge
+                </p>
+              </>
+            ) : (
+              <div className="slide__empty">Screenshots coming soon</div>
+            )}
+          </div>
+
+          <div className="slide__body">
+            <span className="slide__tag">{current.category}</span>
+            <h3>{current.name}</h3>
+            <p className="slide__sub">{current.subtitle}</p>
+            <p className="slide__desc">{current.description}</p>
+            <ul className="chips" aria-label={`${current.name} technologies`}>
+              {current.stack.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
+            <div className="slide__links">
+              {current.live && (
+                <a
+                  className="btn btn--primary btn--sm"
+                  href={current.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Live site ↗
+                </a>
+              )}
+              {total > 1 && (
+                <button
+                  type="button"
+                  className="btn btn--ghost btn--sm"
+                  onClick={() => setGallery(shot)}
+                >
+                  View {total} screenshots
+                </button>
+              )}
+            </div>
+          </div>
+        </article>
+
+        {n > 1 ? (
+          <button
+            type="button"
+            className="car__peek"
+            aria-label={`Next project: ${next.name}`}
+            onClick={() => go(1)}
+            style={{ backgroundImage: `url(${getImages(next.slug)[0] || ""})` }}
+          />
+        ) : (
+          <span className="car__peek car__peek--empty" aria-hidden="true" />
+        )}
+
+        {n > 1 && (
+          <>
+            <button
+              type="button"
+              className="car__arrow car__arrow--prev"
+              aria-label="Previous project"
+              onClick={() => go(-1)}
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              className="car__arrow car__arrow--next"
+              aria-label="Next project"
+              onClick={() => go(1)}
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
+
+      {n > 1 && (
+        <div className="ctl">
+          <button
+            type="button"
+            className="ctl__arrow"
+            aria-label="Previous project"
+            onClick={() => go(-1)}
+          >
+            ‹
+          </button>
+          <div className="dots">
+            {list.map((p, i) => (
+              <button
+                key={p.slug}
+                type="button"
+                className="dots__dot"
+                aria-label={`Show ${p.name}`}
+                aria-current={i === index}
+                onClick={() => jump(i)}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            className="ctl__arrow"
+            aria-label="Next project"
+            onClick={() => go(1)}
+          >
+            ›
+          </button>
         </div>
       )}
-    </article>
-  )
+      {n > 1 && (
+        <p className="ctl__count" aria-live="polite">
+          {index + 1} of {n}
+        </p>
+      )}
+
+      {gallery !== null && (
+        <Gallery
+          name={current.name}
+          images={images}
+          start={gallery}
+          onClose={closeGallery}
+        />
+      )}
+    </div>
+  );
 }
 
 export default function App() {
-  const [all, setAll] = useState(false)
-  const shown = all ? projects : projects.slice(0, 4)
   return (
     <>
       <Navbar />
@@ -240,37 +673,69 @@ export default function App() {
         <Hero />
         <Stats />
 
-        <Section id="about" label="About" title="Building full-stack products from start to finish." alt>
+        <Section
+          id="about"
+          label="About"
+          title="Engineering software from start to finish."
+          alt
+        >
           <div className="about">
-            <div className="prose">{about.map((t) => <p key={t}>{t}</p>)}</div>
+            <div className="prose">
+              {about.map((t) => (
+                <p key={t}>{t}</p>
+              ))}
+            </div>
             <dl className="facts">
               {facts.map((f) => (
-                <div key={f.small}><dt>{f.big}</dt><dd>{f.small}</dd></div>
+                <div key={f.small}>
+                  <dt>{f.big}</dt>
+                  <dd>{f.small}</dd>
+                </div>
               ))}
             </dl>
           </div>
         </Section>
 
-        <Section id="services" label="What I build" title="Where I usually get involved.">
+        <Section
+          id="services"
+          label="What I build"
+          title="Where I usually get involved."
+        >
           <ol className="rows">
             {services.map((s, i) => (
               <li key={s.title} className="rows__item">
-                <div className="rows__title"><span>0{i + 1}</span><h3>{s.title}</h3></div>
+                <div className="rows__title">
+                  <span>0{i + 1}</span>
+                  <h3>{s.title}</h3>
+                </div>
                 <p>{s.text}</p>
               </li>
             ))}
           </ol>
         </Section>
 
-        <Section id="experience" label="Experience" title="Where I've worked." alt>
+        <Section
+          id="experience"
+          label="Experience"
+          title="Where I've worked."
+          alt
+        >
           <ol className="timeline">
             {experience.map((e) => (
               <li key={e.company} className="timeline__item">
                 <div className="timeline__head">
-                  <h3>{e.title} <span>· {e.company}</span></h3>
-                  <p className="muted">{e.dates} · {e.place}</p>
+                  <h3>
+                    {e.title} <span>· {e.company}</span>
+                  </h3>
+                  <p className="muted">
+                    {e.dates} · {e.place}
+                  </p>
                 </div>
-                <ul>{e.points.map((pt) => <li key={pt}>{pt}</li>)}</ul>
+                <ul>
+                  {e.points.map((pt) => (
+                    <li key={pt}>{pt}</li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ol>
@@ -281,48 +746,74 @@ export default function App() {
             {skills.map((s) => (
               <div key={s.group} className="card">
                 <h3>{s.group}</h3>
-                <ul className="chips">{s.items.map((i) => <li key={i}>{i}</li>)}</ul>
+                <ul className="chips">
+                  {s.items.map((i) => (
+                    <li key={i}>{i}</li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </Section>
 
-        <Section id="projects" label="Selected work" title="Products I've built." alt>
-          <div className="grid grid--2">{shown.map((p) => <ProjectCard key={p.slug} p={p} />)}</div>
-          {projects.length > 4 && (
-            <button className="btn btn--ghost more" onClick={() => setAll((a) => !a)}>
-              {all ? 'Show fewer projects' : `Show all ${projects.length} projects`}
-            </button>
-          )}
+        <Section
+          id="projects"
+          label="Selected work"
+          title="Products I've built."
+          alt
+        >
+          <ProjectShowcase />
         </Section>
 
         <Section id="education" label="Education" title="Where I studied.">
+          <div className="degree">
+            <span className="degree__tag">Bachelor's degree</span>
+            <h3>{education[0].title}</h3>
+            <p className="degree__place">{education[0].place}</p>
+            <p className="muted">{education[0].date}</p>
+          </div>
+          <p className="edu__label">Certifications</p>
           <ul className="edu">
-            {education.map((e) => (
-              <li key={e.title}><div><strong>{e.title}</strong><span className="muted">{e.place}</span></div><span className="muted">{e.date}</span></li>
+            {education.slice(1).map((e) => (
+              <li key={e.title}>
+                <div>
+                  <strong>{e.title}</strong>
+                  <span className="muted">{e.place}</span>
+                </div>
+                <span className="muted">{e.date}</span>
+              </li>
             ))}
           </ul>
         </Section>
 
         <section id="contact" className="container contact-wrap">
           <div className="contact">
-            <p className="label label--light">Contact</p>
-            <h2 className="section__title section__title--light">Have a project or role in mind?</h2>
-            <p className="contact__lead">Send me an email or reach out on LinkedIn. I'd be glad to hear what you're building.</p>
-            <div className="contact__actions">
-              <a className="btn btn--primary" href={`mailto:${profile.email}`}>{profile.email}</a>
-              <Socials />
+            <div className="contact__info">
+              <p className="label label--light">Contact</p>
+              <h2 className="section__title section__title--light">
+                Have a project or role in mind?
+              </h2>
+              <p className="contact__lead">
+                Send me a message and I'll get back to you. You can also reach
+                out on LinkedIn.
+              </p>
+              <div className="contact__actions">
+                <Socials />
+              </div>
             </div>
+            <ContactForm />
           </div>
         </section>
       </main>
 
       <footer className="footer">
         <div className="container footer__inner">
-          <p>© {new Date().getFullYear()} {profile.name} · {profile.role}</p>
+          <p>
+            © {new Date().getFullYear()} {profile.name} · {profile.role}
+          </p>
           <a href="#top">Back to top ↑</a>
         </div>
       </footer>
     </>
-  )
+  );
 }

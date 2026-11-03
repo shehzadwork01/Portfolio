@@ -2,11 +2,9 @@
 export const profile = {
   name: "Shehzad Ali",
   initials: "SA",
-  role: "MERN Stack Developer",
+  role: "Software Engineer",
   location: "Lahore, Pakistan",
-  email: "shehzadaliarain2126@gmail.com",
   linkedin: "https://www.linkedin.com/in/shehzad01",
-  github: "https://github.com/Shehzad2126",
 };
 
 export const nav = [
@@ -19,8 +17,8 @@ export const nav = [
 ];
 
 export const about = [
-  "I am a MERN Stack Developer with 2+ years of professional experience building scalable, responsive and user-focused web applications with MongoDB, Express.js, React.js/Next.js and Node.js.",
-  "My work covers REST APIs, frontend optimization and backend integration. I have built healthcare systems, third-party integrations (Gmail, Outlook, DPD, Royal Mail), AI-powered features and full-stack products from start to finish, plus Shopify stores for clients.",
+  "I am a Software Engineer with 2+ years of professional experience and a B.S. in Software Engineering, building scalable, reliable and user-focused software. I work across web and desktop applications, mostly with the MERN stack (MongoDB, Express.js, React.js/Next.js and Node.js).",
+  "My work covers REST APIs, database design, frontend optimization and backend integration. I have built ERP and inventory software, third-party integrations (Gmail, Outlook, DPD, Royal Mail), AI-powered features and full-stack products from start to finish, plus Shopify stores for clients.",
 ];
 
 export const experience = [
@@ -30,7 +28,7 @@ export const experience = [
     place: "Lahore, Pakistan",
     dates: "January 2026 – Present",
     points: [
-      "Building a multi-clinic healthcare management system with role-based access (Doctor, Admin, Medical Officer): prescriptions, appointments, invoices, patient records, AI-powered translation/tone/summary tools, speech-to-text (Web Speech API), pharmacy dispensing with DPD/Royal Mail shipping, and a Gmail/Outlook helpdesk.",
+      "Building a multi-role management platform with role-based access, appointments and invoices, AI-powered translation/tone/summary tools, speech-to-text (Web Speech API), DPD/Royal Mail shipping integration, and a Gmail/Outlook helpdesk.",
       "Designed and optimized REST APIs using Node.js, Express, and MongoDB.",
     ],
   },
@@ -61,6 +59,17 @@ export const experience = [
 
 export const skills = [
   {
+    group: "Software Engineering",
+    items: [
+      "REST API design",
+      "Database schema design",
+      "Role-Based Access Control",
+      "Performance optimization",
+      "Cross-browser testing",
+      "Figma-to-code",
+    ],
+  },
+  {
     group: "Frontend",
     items: [
       "React.js",
@@ -83,7 +92,6 @@ export const skills = [
       "MongoDB",
       "SQL",
       "REST APIs",
-      "Role-Based Access Control",
     ],
   },
   {
@@ -106,8 +114,6 @@ export const skills = [
       "Git/GitHub",
       "Axios",
       "Postman",
-      "Figma-to-code",
-      "Performance Optimization",
     ],
   },
   {
@@ -122,10 +128,12 @@ export const skills = [
 ];
 
 // images: put files in public/projects/<slug>/1.jpg, 2.jpg, 3.jpg (missing ones show a placeholder).
-// live/github: add real URLs only; buttons appear automatically.
+// category: "Web app" | "Desktop" | "Shopify" (drives the filter tabs).
+// live: add real URLs only; the button appears automatically.
 export const projects = [
   {
     slug: "gh-sons-erp",
+    category: "Desktop",
     name: "GH & Sons ERP",
     subtitle: "Yarn & Textile Business Management (Desktop)",
     description:
@@ -134,6 +142,7 @@ export const projects = [
   },
   {
     slug: "barriocheck",
+    category: "Web app",
     name: "BarrioCheck",
     subtitle: "Property Risk Report Platform (Spain)",
     description:
@@ -151,6 +160,7 @@ export const projects = [
   },
   {
     slug: "centrixhub",
+    category: "Web app",
     name: "CentrixHub",
     subtitle: "Project & Client Management Platform",
     description:
@@ -167,6 +177,7 @@ export const projects = [
   },
   {
     slug: "kaduuka",
+    category: "Web app",
     name: "Kaduuka",
     subtitle: "Inventory & Sales Management System",
     description:
@@ -176,6 +187,7 @@ export const projects = [
   },
   {
     slug: "the-mirror",
+    category: "Web app",
     name: "The Mirror",
     subtitle: "AI Reflection Web App",
     description:
@@ -191,6 +203,7 @@ export const projects = [
   },
   {
     slug: "adams-pills",
+    category: "Shopify",
     name: "Adam's Pills",
     subtitle: "Shopify E-commerce Store",
     description:
@@ -200,6 +213,7 @@ export const projects = [
   },
   {
     slug: "eros-him",
+    category: "Shopify",
     name: "Eros Him",
     subtitle: "Shopify E-commerce Store",
     description:
@@ -216,7 +230,7 @@ export const projects = [
 
 export const education = [
   {
-    title: "B.S. Software Engineering",
+    title: "Bachelor of Science in Software Engineering (B.S.)",
     place: "Superior University, Lahore",
     date: "May 2024",
   },
@@ -243,12 +257,16 @@ export const facts = [
 // "What I build" rows. Each line is taken from CV / project content above.
 export const services = [
   {
-    title: "Healthcare & business systems",
-    text: "Multi-clinic healthcare management with role-based access, prescriptions, appointments and invoices, plus ERP and inventory systems for real businesses (GH & Sons ERP, Kaduuka).",
+    title: "Business systems",
+    text: "ERP, inventory and POS systems for real businesses, with role-based access, ledgers, reporting and printable receipts (GH & Sons ERP, Kaduuka).",
   },
   {
-    title: "Full-stack web platforms",
-    text: "MERN and React/Node products with dashboards, authentication and roles, Stripe payments and real-time features (BarrioCheck, CentrixHub).",
+    title: "Web & desktop applications",
+    text: "Full-stack web platforms and Electron desktop apps with dashboards, authentication and roles, Stripe payments and real-time features (BarrioCheck, CentrixHub, GH & Sons ERP).",
+  },
+  {
+    title: "APIs & system design",
+    text: "RESTful APIs, database schema design and role-based access control for scalable data handling, authentication and business logic.",
   },
   {
     title: "AI-powered features",
