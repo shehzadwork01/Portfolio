@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { getImages } from './projectImages.js'
-import { profile, nav, about, experience, skills, projects, education } from './data.js'
+import { profile, nav, about, experience, skills, projects, education, facts, services } from './data.js'
 
 const Icon = {
   linkedin: (
@@ -30,13 +30,16 @@ function Navbar() {
   return (
     <header className="nav">
       <div className="container nav__inner">
-        <a href="#top" className="nav__logo" aria-label="Back to top">{profile.initials}</a>
+        <a href="#top" className="nav__brand" aria-label="Back to top">
+          <span className="nav__logo">{profile.initials}</span>
+          <span className="nav__name">{profile.name}</span>
+        </a>
         <nav id="menu" className={`nav__links ${open ? 'is-open' : ''}`} aria-label="Primary">
           {nav.map((n) => (
-            <a key={n} href={`#${n.toLowerCase()}`} onClick={() => setOpen(false)}>{n}</a>
+            <a key={n.id} href={`#${n.id}`} onClick={() => setOpen(false)}>{n.label}</a>
           ))}
+          <a className="btn btn--dark btn--sm nav__cta" href="#contact" onClick={() => setOpen(false)}>Get in touch</a>
         </nav>
-        <Socials />
         <button className="nav__toggle" aria-expanded={open} aria-controls="menu" aria-label="Toggle menu" onClick={() => setOpen((o) => !o)}>
           <span /><span /><span />
         </button>
@@ -58,11 +61,12 @@ function Reveal({ children, className = '' }) {
   return <div ref={ref} className={`reveal ${shown ? 'is-in' : ''} ${className}`}>{children}</div>
 }
 
-function Section({ id, title, children }) {
+function Section({ id, label, title, children, alt }) {
   return (
-    <section id={id} className="section">
+    <section id={id} className={`section ${alt ? 'section--alt' : ''}`}>
       <div className="container">
         <Reveal>
+          <p className="label">{label}</p>
           <h2 className="section__title">{title}</h2>
           {children}
         </Reveal>
@@ -72,28 +76,54 @@ function Section({ id, title, children }) {
 }
 
 function Hero() {
+  const current = experience[0]
   return (
-    <section className="hero container" id="top">
-      <div className="hero__card">
+    <section className="hero" id="top">
+      <div className="container hero__grid">
         <div className="hero__text">
-          <p className="eyebrow">MERN STACK DEVELOPER · FULL STACK</p>
-          <h1>Engineering digital products that <span>work.</span></h1>
+          <p className="kicker"><span className="kicker__bar" />{profile.name}<em>{profile.role}</em></p>
+          <h1>
+            <span>Engineering</span>
+            <span>digital products</span>
+            <span className="accent">that work.</span>
+          </h1>
           <p className="hero__lead">
             I build scalable, responsive web applications with MongoDB, Express, React and Node.js, from healthcare systems and ERP tools to AI-powered apps and Shopify stores.
           </p>
           <div className="hero__cta">
-            <a className="btn btn--primary" href="#projects">View My Work</a>
-            <a className="btn btn--ghost" href="#contact">Get In Touch</a>
+            <a className="btn btn--primary" href="#projects">View my work <span aria-hidden="true">→</span></a>
+            <a className="btn btn--ghost" href="#contact">Get in touch</a>
           </div>
         </div>
         <div className="hero__visual" aria-hidden="true">
-          <div className="hero__badge">
-            <span>{profile.initials}</span>
-            <small>{profile.location}</small>
+          <div className="hero__panel">
+            <span className="hero__initials">{profile.initials}</span>
+            <div className="hero__badge">
+              <strong>{current.company}</strong>
+              <small>{current.title} · {profile.location}</small>
+            </div>
           </div>
         </div>
       </div>
     </section>
+  )
+}
+
+function Stats() {
+  const items = [
+    { big: '2+ years', small: 'Professional experience' },
+    { big: String(projects.length), small: 'Projects built' },
+    { big: String(experience.length), small: 'Companies worked with' },
+    { big: 'MERN', small: 'Core stack' },
+  ]
+  return (
+    <div className="stats">
+      <div className="container stats__grid">
+        {items.map((s) => (
+          <div key={s.small}><strong>{s.big}</strong><span>{s.small}</span></div>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -208,12 +238,31 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <Stats />
 
-        <Section id="about" title="About">
-          <div className="prose">{about.map((t) => <p key={t}>{t}</p>)}</div>
+        <Section id="about" label="About" title="Building full-stack products from start to finish." alt>
+          <div className="about">
+            <div className="prose">{about.map((t) => <p key={t}>{t}</p>)}</div>
+            <dl className="facts">
+              {facts.map((f) => (
+                <div key={f.small}><dt>{f.big}</dt><dd>{f.small}</dd></div>
+              ))}
+            </dl>
+          </div>
         </Section>
 
-        <Section id="experience" title="Experience">
+        <Section id="services" label="What I build" title="Where I usually get involved.">
+          <ol className="rows">
+            {services.map((s, i) => (
+              <li key={s.title} className="rows__item">
+                <div className="rows__title"><span>0{i + 1}</span><h3>{s.title}</h3></div>
+                <p>{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </Section>
+
+        <Section id="experience" label="Experience" title="Where I've worked." alt>
           <ol className="timeline">
             {experience.map((e) => (
               <li key={e.company} className="timeline__item">
@@ -227,7 +276,7 @@ export default function App() {
           </ol>
         </Section>
 
-        <Section id="skills" title="Skills">
+        <Section id="skills" label="Skills" title="The tools I work with.">
           <div className="grid grid--3">
             {skills.map((s) => (
               <div key={s.group} className="card">
@@ -238,7 +287,7 @@ export default function App() {
           </div>
         </Section>
 
-        <Section id="projects" title="Projects">
+        <Section id="projects" label="Selected work" title="Products I've built." alt>
           <div className="grid grid--2">{shown.map((p) => <ProjectCard key={p.slug} p={p} />)}</div>
           {projects.length > 4 && (
             <button className="btn btn--ghost more" onClick={() => setAll((a) => !a)}>
@@ -247,7 +296,7 @@ export default function App() {
           )}
         </Section>
 
-        <Section id="education" title="Education">
+        <Section id="education" label="Education" title="Where I studied.">
           <ul className="edu">
             {education.map((e) => (
               <li key={e.title}><div><strong>{e.title}</strong><span className="muted">{e.place}</span></div><span className="muted">{e.date}</span></li>
@@ -255,19 +304,23 @@ export default function App() {
           </ul>
         </Section>
 
-        <Section id="contact" title="Contact">
-          <div className="card contact">
-            <p>Have a project or role in mind? Send me an email or reach out on LinkedIn.</p>
-            <a className="btn btn--primary" href={`mailto:${profile.email}`}>{profile.email}</a>
-            <Socials />
+        <section id="contact" className="container contact-wrap">
+          <div className="contact">
+            <p className="label label--light">Contact</p>
+            <h2 className="section__title section__title--light">Have a project or role in mind?</h2>
+            <p className="contact__lead">Send me an email or reach out on LinkedIn. I'd be glad to hear what you're building.</p>
+            <div className="contact__actions">
+              <a className="btn btn--primary" href={`mailto:${profile.email}`}>{profile.email}</a>
+              <Socials />
+            </div>
           </div>
-        </Section>
+        </section>
       </main>
 
       <footer className="footer">
         <div className="container footer__inner">
           <p>© {new Date().getFullYear()} {profile.name} · {profile.role}</p>
-          <div className="footer__right"><Socials /><a href="#top">Back to top ↑</a></div>
+          <a href="#top">Back to top ↑</a>
         </div>
       </footer>
     </>

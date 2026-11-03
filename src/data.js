@@ -9,7 +9,14 @@ export const profile = {
   github: "https://github.com/Shehzad2126",
 };
 
-export const nav = ["About", "Experience", "Skills", "Projects", "Contact"];
+export const nav = [
+  { label: "About", id: "about" },
+  { label: "What I build", id: "services" },
+  { label: "Experience", id: "experience" },
+  { label: "Skills", id: "skills" },
+  { label: "Projects", id: "projects" },
+  { label: "Contact", id: "contact" },
+];
 
 export const about = [
   "I am a MERN Stack Developer with 2+ years of professional experience building scalable, responsive and user-focused web applications with MongoDB, Express.js, React.js/Next.js and Node.js.",
@@ -222,5 +229,37 @@ export const education = [
     title: "Certification – Web Design and Development",
     place: "Professional Institute of Management & Technology, Lahore",
     date: "August 2022",
+  },
+];
+
+// Small facts shown next to the About text (all from the CV).
+export const facts = [
+  { big: "Bitz Studio", small: "Current role · since Jan 2026" },
+  { big: "Lahore, Pakistan", small: "Based in" },
+  { big: "2+ years", small: "Professional experience" },
+  { big: "B.S. Software Eng.", small: "Superior University, 2024" },
+];
+
+// "What I build" rows. Each line is taken from CV / project content above.
+export const services = [
+  {
+    title: "Healthcare & business systems",
+    text: "Multi-clinic healthcare management with role-based access, prescriptions, appointments and invoices, plus ERP and inventory systems for real businesses (GH & Sons ERP, Kaduuka).",
+  },
+  {
+    title: "Full-stack web platforms",
+    text: "MERN and React/Node products with dashboards, authentication and roles, Stripe payments and real-time features (BarrioCheck, CentrixHub).",
+  },
+  {
+    title: "AI-powered features",
+    text: "AI translation, tone and summary tools, speech-to-text with the Web Speech API, and apps built on the Anthropic / Claude API (The Mirror, BarrioCheck).",
+  },
+  {
+    title: "Integrations",
+    text: "Gmail, Outlook, DPD, Royal Mail, Stripe, Paddle, Google APIs and AWS S3 wired into production workflows.",
+  },
+  {
+    title: "Shopify stores",
+    text: "Store setup, theme customization, products and collections, payments and shipping (Adam's Pills, Eros Him).",
   },
 ];
