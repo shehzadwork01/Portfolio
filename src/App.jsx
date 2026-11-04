@@ -608,8 +608,8 @@ function ProjectShowcase() {
                 <li key={s}>{s}</li>
               ))}
             </ul>
-            <div className="slide__links">
-              {current.live && (
+            {current.live && (
+              <div className="slide__links">
                 <a
                   className="btn btn--primary btn--sm"
                   href={current.live}
@@ -618,17 +618,8 @@ function ProjectShowcase() {
                 >
                   Live site ↗
                 </a>
-              )}
-              {total > 1 && (
-                <button
-                  type="button"
-                  className="btn btn--ghost btn--sm"
-                  onClick={() => setGallery(shot)}
-                >
-                  View {total} screenshots
-                </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </article>
 
