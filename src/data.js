@@ -4,6 +4,10 @@ export const profile = {
   initials: "SA",
   role: "Software Engineer",
   location: "Lahore, Pakistan",
+  email: "shehzadaliarain2126@gmail.com",
+  whatsapp: "923140031914",
+  // Leave "" to hide the WhatsApp icon.
+  // whatsapp: "",
   linkedin: "https://www.linkedin.com/in/shehzad01",
 };
 
@@ -86,13 +90,7 @@ export const skills = [
   },
   {
     group: "Backend & Databases",
-    items: [
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "SQL",
-      "REST APIs",
-    ],
+    items: ["Node.js", "Express.js", "MongoDB", "SQL", "REST APIs"],
   },
   {
     group: "AI & Voice",
@@ -110,11 +108,7 @@ export const skills = [
   },
   {
     group: "Tools",
-    items: [
-      "Git/GitHub",
-      "Axios",
-      "Postman",
-    ],
+    items: ["Git/GitHub", "Axios", "Postman"],
   },
   {
     group: "E-commerce",
@@ -129,6 +123,7 @@ export const skills = [
 
 // images: put files in public/projects/<slug>/1.jpg, 2.jpg, 3.jpg (missing ones show a placeholder).
 // category: "Web app" | "Desktop" | "Shopify" (drives the filter tabs).
+// freelance: true shows a "Freelance" badge on the project.
 // live: add real URLs only; the button appears automatically.
 export const projects = [
   {
@@ -204,6 +199,7 @@ export const projects = [
   {
     slug: "adams-pills",
     category: "Shopify",
+    freelance: true,
     name: "Adam's Pills",
     subtitle: "Shopify E-commerce Store",
     description:
@@ -214,6 +210,7 @@ export const projects = [
   {
     slug: "eros-him",
     category: "Shopify",
+    freelance: true,
     name: "Eros Him",
     subtitle: "Shopify E-commerce Store",
     description:
@@ -233,16 +230,6 @@ export const education = [
     title: "Bachelor of Science in Software Engineering (B.S.)",
     place: "Superior University, Lahore",
     date: "May 2024",
-  },
-  {
-    title: "Certification – Front End Development",
-    place: "Institute of Emerging Careers, Lahore",
-    date: "February 2023",
-  },
-  {
-    title: "Certification – Web Design and Development",
-    place: "Professional Institute of Management & Technology, Lahore",
-    date: "August 2022",
   },
 ];
 
