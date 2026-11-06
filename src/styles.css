@@ -475,7 +475,9 @@ h1 .accent {
   font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 .tabs__btn small {
   font-size: 0.8125rem;
@@ -507,7 +509,9 @@ h1 .accent {
   opacity: 0.45;
   transform: scale(0.94);
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 .car__peek:hover {
   opacity: 0.8;
@@ -629,7 +633,9 @@ h1 .accent {
   background: var(--color-accent-soft);
   cursor: pointer;
   opacity: 0.7;
-  transition: opacity 0.2s, border-color 0.2s;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s;
 }
 .thumbs__btn:hover {
   opacity: 1;
@@ -750,7 +756,9 @@ h1 .accent {
   border-radius: 999px;
   background: #cbd3ec;
   cursor: pointer;
-  transition: width 0.25s, background 0.25s;
+  transition:
+    width 0.25s,
+    background 0.25s;
 }
 .dots__dot:hover {
   background: #a7b9e3;
@@ -905,7 +913,9 @@ h1 .accent {
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 .form select option {
   color: var(--color-ink);
@@ -1364,4 +1374,108 @@ h1 {
 *::after {
   transition: none !important;
   animation: none !important;
+}
+/* ===== Custom animated cursor (desktop / mouse only) ===== */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  display: none;
+  transition: opacity 0.25s ease;
+}
+.has-custom-cursor .cursor-dot,
+.has-custom-cursor .cursor-ring {
+  display: block;
+}
+.cursor-dot.is-visible,
+.cursor-ring.is-visible {
+  opacity: 1;
+}
+.has-custom-cursor,
+.has-custom-cursor *:not(input):not(textarea) {
+  cursor: none !important;
+}
+.cursor-dot::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  transition: opacity 0.2s ease;
+}
+.cursor-dot[data-state="link"],
+.cursor-dot[data-state="zoom"],
+.cursor-dot[data-state="text"] {
+  opacity: 0 !important;
+}
+.cursor-ring::before {
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 50%;
+  background: rgba(47, 95, 158, 0);
+  transition:
+    width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    margin 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.15s ease,
+    opacity 0.2s ease;
+}
+.cursor-ring__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  font:
+    700 0.75rem/1 "DM Sans",
+    sans-serif;
+  letter-spacing: 0.04em;
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.cursor-ring[data-state="link"]::before {
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  background: rgba(47, 95, 158, 0.16);
+  border-color: transparent;
+  animation: cursor-pulse 1.4s ease-in-out infinite;
+}
+.cursor-ring[data-state="zoom"]::before {
+  width: 78px;
+  height: 78px;
+  margin: -39px 0 0 -39px;
+  background: rgba(24, 33, 63, 0.88);
+  border-color: #fff;
+}
+.cursor-ring[data-state="zoom"] .cursor-ring__label {
+  opacity: 1;
+}
+.cursor-ring[data-state="text"]::before {
+  opacity: 0;
+}
+.cursor-ring.is-down::before {
+  transform: scale(0.75);
+}
+@keyframes cursor-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 95, 158, 0.28);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(47, 95, 158, 0);
+  }
 }

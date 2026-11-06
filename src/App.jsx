@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { getImages } from "./projectImages.js";
+import CustomCursor from "./CustomCursor.jsx";
 import {
   profile,
   nav,
@@ -28,7 +29,7 @@ const Icon = {
 
 function Socials() {
   const waText = encodeURIComponent(
-    "Hi Shehzad, I found your portfolio and would like to talk."
+    "Hi Shehzad, I found your portfolio and would like to talk.",
   );
   const mailSubject = encodeURIComponent("Hello from your portfolio");
   return (
@@ -166,7 +167,9 @@ function ContactForm() {
 
     const key = import.meta.env.VITE_WEB3FORMS_KEY;
     if (!key) {
-      setError("The contact form isn't configured yet. Please use the WhatsApp or email icons instead.");
+      setError(
+        "The contact form isn't configured yet. Please use the WhatsApp or email icons instead.",
+      );
       setStatus("error");
       return;
     }
@@ -176,7 +179,10 @@ function ContactForm() {
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({
           access_key: key,
           subject: `Portfolio contact: ${data.get("topic")} (${data.get("name")})`,
@@ -188,11 +194,14 @@ function ContactForm() {
         }),
       });
       const json = await res.json();
-      if (!res.ok || !json.success) throw new Error(json.message || "Request failed");
+      if (!res.ok || !json.success)
+        throw new Error(json.message || "Request failed");
       form.reset();
       setStatus("sent");
     } catch {
-      setError("Something went wrong. Please try again or use the WhatsApp or email icons.");
+      setError(
+        "Something went wrong. Please try again or use the WhatsApp or email icons.",
+      );
       setStatus("error");
     }
   };
@@ -202,7 +211,11 @@ function ContactForm() {
       <div className="form form--done" role="status">
         <h3>Message sent</h3>
         <p>Thanks for reaching out. I'll reply to you by email soon.</p>
-        <button type="button" className="btn btn--ghost-light" onClick={() => setStatus("idle")}>
+        <button
+          type="button"
+          className="btn btn--ghost-light"
+          onClick={() => setStatus("idle")}
+        >
           Send another message
         </button>
       </div>
@@ -214,11 +227,23 @@ function ContactForm() {
       <div className="form__row">
         <label>
           <span>Name</span>
-          <input name="name" type="text" required maxLength={80} autoComplete="name" />
+          <input
+            name="name"
+            type="text"
+            required
+            maxLength={80}
+            autoComplete="name"
+          />
         </label>
         <label>
           <span>Email</span>
-          <input name="email" type="email" required maxLength={120} autoComplete="email" />
+          <input
+            name="email"
+            type="email"
+            required
+            maxLength={120}
+            autoComplete="email"
+          />
         </label>
       </div>
       <label>
@@ -240,8 +265,19 @@ function ContactForm() {
           placeholder="Tell me a little about what you need."
         />
       </label>
-      <input type="checkbox" name="botcheck" className="form__hp" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-      <button className="btn btn--primary" type="submit" disabled={status === "sending"}>
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="form__hp"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+      <button
+        className="btn btn--primary"
+        type="submit"
+        disabled={status === "sending"}
+      >
         {status === "sending" ? "Sending…" : "Send message →"}
       </button>
       {status === "error" && (
@@ -271,8 +307,8 @@ function Hero() {
           </h1>
           <p className="hero__lead">
             I'm a software engineer building reliable web and desktop
-            applications, from ERP and inventory tools to AI-powered
-            apps and Shopify stores. Mostly on the MERN stack.
+            applications, from ERP and inventory tools to AI-powered apps and
+            Shopify stores. Mostly on the MERN stack.
           </p>
           <div className="hero__cta">
             <a className="btn btn--primary" href="#projects">
@@ -467,7 +503,9 @@ function ProjectShowcase() {
     setShot(0);
   };
   const count = (f) =>
-    f === "All" ? projects.length : projects.filter((p) => p.category === f).length;
+    f === "All"
+      ? projects.length
+      : projects.filter((p) => p.category === f).length;
 
   const onKeyDown = (e) => {
     if (e.target.closest("input, textarea, select")) return;
@@ -565,7 +603,9 @@ function ProjectShowcase() {
                           onClick={() => (isMore ? setGallery(i) : setShot(i))}
                         >
                           <img src={src} alt="" loading="lazy" />
-                          {isMore && <span className="thumbs__more">+{more}</span>}
+                          {isMore && (
+                            <span className="thumbs__more">+{more}</span>
+                          )}
                         </button>
                       );
                     })}
@@ -585,7 +625,9 @@ function ProjectShowcase() {
             <div className="slide__tags">
               <span className="slide__tag">{current.category}</span>
               {current.freelance && (
-                <span className="slide__tag slide__tag--freelance">Freelance</span>
+                <span className="slide__tag slide__tag--freelance">
+                  Freelance
+                </span>
               )}
             </div>
             <h3>{current.name}</h3>
@@ -699,6 +741,7 @@ export default function App() {
   return (
     <>
       <Navbar />
+      <CustomCursor />
       <main>
         <Hero />
         <Stats />
