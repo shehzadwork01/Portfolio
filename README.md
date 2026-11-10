@@ -1,4 +1,4 @@
-# Shehzad Ali — Portfolio (React + Vite)
+# Shehzad Ali | Portfolio (React + Vite)
 
     npm install
     npm run dev      # local
