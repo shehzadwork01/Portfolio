@@ -14,7 +14,6 @@ export const profile = {
 export const nav = [
   { label: "About", id: "about" },
   { label: "What I build", id: "services" },
-  { label: "Experience", id: "experience" },
   { label: "Skills", id: "skills" },
   { label: "Projects", id: "projects" },
   { label: "Contact", id: "contact" },
@@ -23,42 +22,6 @@ export const nav = [
 export const about = [
   "I am a Software Engineer with 2+ years of professional experience and a B.S. in Software Engineering, building scalable, reliable and user-focused software. I work across web and desktop applications, mostly with the MERN stack (MongoDB, Express.js, React.js/Next.js and Node.js).",
   "My work covers REST APIs, database design, frontend optimization and backend integration. I have built ERP and inventory software, third-party integrations (Gmail, Outlook, DPD, Royal Mail), AI-powered features and full-stack products from start to finish, plus Shopify stores for clients.",
-];
-
-export const experience = [
-  {
-    title: "MERN Stack Developer",
-    company: "Bitz Studio",
-    place: "Lahore, Pakistan",
-    dates: "January 2026 – Present",
-    points: [
-      "Building a multi-role management platform with role-based access, appointments and invoices, AI-powered translation/tone/summary tools, speech-to-text (Web Speech API), DPD/Royal Mail shipping integration, and a Gmail/Outlook helpdesk.",
-      "Designed and optimized REST APIs using Node.js, Express, and MongoDB.",
-    ],
-  },
-  {
-    title: "MERN Stack Developer",
-    company: "IDEVO Solutions",
-    place: "Lahore, Pakistan",
-    dates: "December 2024 – December 2025",
-    points: [
-      "Developed and maintained full-stack MERN applications, ensuring seamless frontend–backend integration.",
-      "Built RESTful APIs with Express.js and Node.js for data handling, authentication, and business logic.",
-      "Designed MongoDB schemas for scalable data storage and optimized query performance.",
-      "Converted Figma designs into pixel-perfect React.js UIs with responsive layouts.",
-    ],
-  },
-  {
-    title: "Junior Full Stack Developer (Internship)",
-    company: "Xiist",
-    place: "Lahore, Pakistan",
-    dates: "March 2024 – June 2024",
-    points: [
-      "Collaborated with the development team to implement new features and functionality for client projects.",
-      "Ensured cross-browser compatibility by testing websites across platforms and devices.",
-      "Optimized the company website for speed and scalability; presented regular project updates to the supervisor.",
-    ],
-  },
 ];
 
 export const skills = [
@@ -225,20 +188,10 @@ export const projects = [
   },
 ];
 
-export const education = [
-  {
-    title: "Bachelor of Science in Software Engineering (B.S.)",
-    place: "Superior University, Lahore",
-    date: "May 2024",
-  },
-];
-
 // Small facts shown next to the About text (all from the CV).
 export const facts = [
-  { big: "Bitz Studio", small: "Current role · since Jan 2026" },
   { big: "Lahore, Pakistan", small: "Based in" },
   { big: "2+ years", small: "Professional experience" },
-  { big: "B.S. Software Eng.", small: "Superior University, 2024" },
 ];
 
 // "What I build" rows. Each line is taken from CV / project content above.

@@ -6,10 +6,8 @@ import {
   profile,
   nav,
   about,
-  experience,
   skills,
   projects,
-  education,
   facts,
   services,
 } from "./data.js";
@@ -290,7 +288,6 @@ function ContactForm() {
 }
 
 function Hero() {
-  const current = experience[0];
   return (
     <section className="hero" id="top">
       <div className="container hero__grid">
@@ -322,12 +319,6 @@ function Hero() {
         <div className="hero__visual" aria-hidden="true">
           <div className="hero__panel">
             <img className="hero__photo" src="/me.webp" alt={profile.name} />
-            <div className="hero__badge">
-              <strong>{current.company}</strong>
-              <small>
-                {current.title} · {profile.location}
-              </small>
-            </div>
           </div>
         </div>
       </div>
@@ -339,8 +330,8 @@ function Stats() {
   const items = [
     { big: "2+ years", small: "Professional experience" },
     { big: String(projects.length), small: "Projects built" },
-    { big: String(experience.length), small: "Companies worked with" },
     { big: "Web + Desktop", small: "Platforms" },
+    { big: "MERN", small: "Core stack" },
   ];
   return (
     <div className="stats">
@@ -788,33 +779,11 @@ export default function App() {
         </Section>
 
         <Section
-          id="experience"
-          label="Experience"
-          title="Where I've worked."
+          id="skills"
+          label="Skills"
+          title="The tools I work with."
           alt
         >
-          <ol className="timeline">
-            {experience.map((e) => (
-              <li key={e.company} className="timeline__item">
-                <div className="timeline__head">
-                  <h3>
-                    {e.title} <span>· {e.company}</span>
-                  </h3>
-                  <p className="muted">
-                    {e.dates} · {e.place}
-                  </p>
-                </div>
-                <ul>
-                  {e.points.map((pt) => (
-                    <li key={pt}>{pt}</li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ol>
-        </Section>
-
-        <Section id="skills" label="Skills" title="The tools I work with.">
           <div className="skills">
             {skills.map((s) => (
               <div key={s.group} className="skills__row">
@@ -829,18 +798,8 @@ export default function App() {
           id="projects"
           label="Selected work"
           title="Products I've built."
-          alt
         >
           <ProjectShowcase />
-        </Section>
-
-        <Section id="education" label="Education" title="Where I studied.">
-          <div className="degree">
-            <span className="degree__tag">Bachelor's degree</span>
-            <h3>{education[0].title}</h3>
-            <p className="degree__place">{education[0].place}</p>
-            <p className="muted">{education[0].date}</p>
-          </div>
         </Section>
 
         <section id="contact" className="container contact-wrap">
